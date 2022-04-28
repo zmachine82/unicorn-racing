@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_185403) do
+ActiveRecord::Schema.define(version: 2022_04_25_233522) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  create_table "api_v1_unicorns", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "slug"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_185403) do
   end
 
   create_table "tokens", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "value"
     t.datetime "expiry"
     t.string "ip"
@@ -32,9 +35,15 @@ ActiveRecord::Schema.define(version: 2021_11_22_185403) do
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
+  create_table "unicorns", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "user_roles", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "role_id", null: false
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["role_id"], name: "index_user_roles_on_role_id"

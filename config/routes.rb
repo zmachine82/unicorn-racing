@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+
   require 'sidekiq/web'
 
   scope :monitoring do
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
         get :me
         post :create
       end
+      resources :unicorns
     end
   end
 end
