@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UnicornService } from '../unicorn.service';
 
+
 @Component({
   selector: 'app-unicorns-page',
   templateUrl: './unicorns-page.component.html',
@@ -14,7 +15,6 @@ export class UnicornsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.unicornService.getAllUnicorns().subscribe(data => {
-      console.log('http complete')
       this.unicorns = data
     });
   }

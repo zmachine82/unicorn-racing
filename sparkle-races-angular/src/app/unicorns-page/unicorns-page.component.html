@@ -1,1 +1,8 @@
 <h1> Unicorn Racers ({{unicorns.length}})</h1>
+
+
+
+
+<button class="new-unicorn-link" routerLink="new">Add A Unicorn</button>
+<br />
+<a *ngFor="let unicorn of unicorns" [routerLink]="unicorn.id">{{ unicorn.name }} <br /></a>

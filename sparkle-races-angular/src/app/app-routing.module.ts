@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NewUnicornPageComponent } from './new-unicorn-page/new-unicorn-page.component';
+import { UnicornDetailComponent } from './unicorn-detail/unicorn-detail.component';
 import { UnicornsPageComponent } from './unicorns-page/unicorns-page.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'unicorns',
     component: UnicornsPageComponent
@@ -11,7 +13,15 @@ const routes: Routes = [
     path: '',
     redirectTo: 'unicorns',
     pathMatch: 'full'
-  }
+  },
+  {
+    component: NewUnicornPageComponent,
+    path: 'unicorns/new',
+  },
+  {
+    component: UnicornDetailComponent,
+    path: 'unicorns/:id',
+  },
 ];
 
 @NgModule({

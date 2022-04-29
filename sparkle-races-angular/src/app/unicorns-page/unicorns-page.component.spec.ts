@@ -1,10 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockProvider } from "ng-mocks";
 import { of } from 'rxjs';
+import { routes } from '../app-routing.module';
 import { UnicornService } from '../unicorn.service';
-
 import { UnicornsPageComponent } from './unicorns-page.component';
+
 
 describe('UnicornsPageComponent', () => {
   let component: UnicornsPageComponent;
@@ -13,10 +15,11 @@ describe('UnicornsPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ UnicornsPageComponent ],
+      imports: [
+        RouterTestingModule.withRoutes(routes)
+      ],
       providers: [
-        {
-          provide: UnicornService, useValue: {getAllUnicorns: () => of([{namez: 'unicorn'}, {name: 'njkasdfgnokasd'}])}
-        }
+        MockProvider(UnicornService)
       ]
     })
     .compileComponents();
@@ -25,25 +28,64 @@ describe('UnicornsPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnicornsPageComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    jest.spyOn(TestBed.inject(UnicornService), 'getAllUnicorns').mockReturnValue(of([{name: 'steve'}]))
+
+  
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  // it('should have a title of Unicorn Racers', () => {
-  //   let title = fixture.debugElement.query(By.css('h1'));
+  describe('unicorn list', () => {
 
+    beforeEach(() => {
+      jest.spyOn(TestBed.inject(UnicornService), 'getAllUnicorns').mockReturnValue(of([
+        {id: 1, name: 'steve'}, 
+        {id: 2, name: 'not steve'}
+      ]))
+      fixture.detectChanges();
+    })
   
     
-  //   expect(title.nativeElement.textContent.trim()).toEqual('Unicorn Racers')
-  // });
-
-  it('should display number of unicorns',  () => {
-    
-    let title = fixture.debugElement.query(By.css('h1'));
+    it('should display number of unicorns',  () => {
       
-    expect(title.nativeElement.textContent.trim()).toEqual('Unicorn Racers (2)')
+      let title = fixture.debugElement.query(By.css('h1'));
+      
+      expect(title.nativeElement.textContent.trim()).toEqual('Unicorn Racers (2)')
+    });
+
+    it('should display name of each unicorn', () => {
+     
+      let links = fixture.debugElement.queryAll(By.css('a'));
+      expect(links.length).toEqual(2);
+      expect(links[0].nativeElement.textContent.trim()).toEqual('steve')
+      expect(links[1].nativeElement.textContent.trim()).toEqual('not steve')
+    });
+
+    it('should route to unicorn detail page when clicked', () => {
+      
+      let links = fixture.debugElement.queryAll(By.css('a'));
+    
+      expect(links[0].attributes['ng-reflect-router-link']).toEqual('1');
+      expect(links[1].attributes['ng-reflect-router-link']).toEqual('2');
+
+    });
+
+
+  
+  });
+
+  describe('new unicorn link', () => {
+    it('should route to new unicorn page', () => {
+      let link = fixture.debugElement.query(By.css('.new-unicorn-link'));
+    
+      expect(link.nativeElement.textContent.trim()).toEqual('Add A Unicorn');
+      expect(link.attributes['ng-reflect-router-link']).toEqual('new');
+    });
   })
-});
+})
+
+
