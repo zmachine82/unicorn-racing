@@ -39,5 +39,55 @@ describe('UnicornService', () => {
 	    req.flush([{name: 'jose'}]);
       
     })
+  });
+
+  describe('add unicorn', () => {
+    it('should return data from backend', done => {
+      service.addUnicorn({name: 'Unimule'}).subscribe(data => {
+        expect(data).toEqual({id: 1, name: 'Unimule'})
+        done()
+      });
+      
+      const req = httpController.expectOne({
+	      method: 'POST',
+	      url: `http://localhost:3000/api/v1/unicorns`,
+	    });
+
+	    req.flush({id: 1, name: 'Unimule'});
+    });
   })
+
+  describe('getById', () => {
+    it('should return data from backend', done => {
+      service.getById(3).subscribe(data => {
+        expect(data).toEqual({id: 3, name: 'Unimule'})
+        done()
+      });
+      
+      const req = httpController.expectOne({
+	      method: 'GET',
+	      url: `http://localhost:3000/api/v1/unicorns/3`,
+	    });
+
+	    req.flush({id: 3, name: 'Unimule'});
+    });
+  })
+  
+  describe('destroyById', () => {
+    it('should delete data from backend', done => {
+      service.destroyById(3).subscribe(data => {
+        done()
+      });
+      
+      const req = httpController.expectOne({
+	      method: 'DELETE',
+	      url: `http://localhost:3000/api/v1/unicorns/3`,
+	    });
+
+	    req.flush(null);
+    });
+  })
+
+
+  
 });

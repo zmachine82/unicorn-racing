@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UnicornService } from '../unicorn.service';
 
 @Component({
@@ -9,14 +10,15 @@ import { UnicornService } from '../unicorn.service';
 })
 export class NewUnicornPageComponent implements OnInit {
 
-  constructor(private unicornService: UnicornService) { }
+  constructor(private unicornService: UnicornService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
-    this.unicornService.addUnicorn(form.value).subscribe();
+    this.unicornService.addUnicorn(form.value).subscribe(() => {
+      this.router.navigate(["/"])
+    });
   }
 
 }

@@ -1,7 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 import { UnicornService } from '../unicorn.service';
 
 import { NewUnicornPageComponent } from './new-unicorn-page.component';
@@ -13,7 +16,7 @@ describe('NewUnicornPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ NewUnicornPageComponent ],
-      imports: [FormsModule],
+      imports: [FormsModule, RouterTestingModule],
       providers: [
         MockProvider(UnicornService)
       ]
@@ -53,7 +56,7 @@ describe('NewUnicornPageComponent', () => {
         nameInput.nativeElement.dispatchEvent(new Event('input'));
 
 
-        let spy = jest.spyOn(TestBed.inject(UnicornService), 'addUnicorn')
+        let spy = jest.spyOn(TestBed.inject(UnicornService), 'addUnicorn').mockReturnValue(of())
         let submitButton = fixture.debugElement.query(By.css('button'));
         submitButton.nativeElement.click();
 
@@ -61,6 +64,19 @@ describe('NewUnicornPageComponent', () => {
 
         expect(spy).toHaveBeenCalledWith({name: 'NewName'})
       });
+
+      it('should redirect user after submit', fakeAsync(() => {
+       
+        let spy = jest.spyOn(TestBed.inject(Router), 'navigate').mockReturnValue(Promise.resolve(true))
+        jest.spyOn(TestBed.inject(UnicornService), 'addUnicorn').mockReturnValue(of({}));
+        let submitButton = fixture.debugElement.query(By.css('button'));
+        submitButton.nativeElement.click();
+  
+        fixture.detectChanges();
+        tick(200)
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledWith(['/'])
+      }));
     })
   })
 });

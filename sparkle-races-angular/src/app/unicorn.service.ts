@@ -15,8 +15,17 @@ export class UnicornService {
   }
 
   addUnicorn(data: any): Observable<any> {
-    return of();
-    // return this.http.post('http://localhost:3000/api/v1/unicorns', {api_v1_unicorn: data})
+    // return of();
+    return this.http.post('http://localhost:3000/api/v1/unicorns', {api_v1_unicorn: data});
     
+  }
+
+  getById(id: number | string): Observable<any> {
+    // return of();
+    return this.http.get('http://localhost:3000/api/v1/unicorns/' + id);
+  };
+
+  destroyById(id: string | number): Observable<any> {
+    return this.http.delete('http://localhost:3000/api/v1/unicorns/' + id);
   }
 }

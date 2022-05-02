@@ -1,1 +1,5 @@
-<p>unicorn-detail works!</p>
+<h2 *ngIf="unicorn">{{unicorn.name}}</h2>
+<button (click)="destroyUnicorn()" 
+    style="font-weight:bold; 
+        color: #ff66cc; 
+        background-color: black;" >Annihilate Adorable Unicorn</button>
