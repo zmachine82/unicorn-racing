@@ -9,6 +9,7 @@ import { UnicornService } from '../unicorn.service';
   styleUrls: ['./new-unicorn-page.component.scss']
 })
 export class NewUnicornPageComponent implements OnInit {
+  nameErrors: any;
 
   constructor(private unicornService: UnicornService, private router: Router) { }
 
@@ -18,7 +19,13 @@ export class NewUnicornPageComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.unicornService.addUnicorn(form.value).subscribe(() => {
       this.router.navigate(["/"])
+    }, error => {
+      this.nameErrors = error.error.name
     });
   }
+
+onCancel(){
+  this.router.navigate(['/'])
+}
 
 }

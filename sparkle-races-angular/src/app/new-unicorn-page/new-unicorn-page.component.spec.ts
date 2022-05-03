@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UnicornService } from '../unicorn.service';
 
 import { NewUnicornPageComponent } from './new-unicorn-page.component';
@@ -65,19 +65,57 @@ describe('NewUnicornPageComponent', () => {
         expect(spy).toHaveBeenCalledWith({name: 'NewName'})
       });
 
-      it('should redirect user after submit', fakeAsync(() => {
-       
+      it('should redirect user after submit', () => {
+      
         let spy = jest.spyOn(TestBed.inject(Router), 'navigate').mockReturnValue(Promise.resolve(true))
         jest.spyOn(TestBed.inject(UnicornService), 'addUnicorn').mockReturnValue(of({}));
         let submitButton = fixture.debugElement.query(By.css('button'));
         submitButton.nativeElement.click();
   
         fixture.detectChanges();
-        tick(200)
-        fixture.detectChanges();
+      
         expect(spy).toHaveBeenCalledWith(['/'])
-      }));
+      });
+      
+      it('should display error if backend returns error', () => {
+
+        jest.spyOn(TestBed.inject(UnicornService), 'addUnicorn').mockReturnValue(throwError({error: {name: ["is too short (minimum is 3 characters)"]}}))
+        let submitButton = fixture.debugElement.query(By.css('button'));
+        submitButton.nativeElement.click();
+
+        fixture.detectChanges();
+
+        let displayedError = fixture.debugElement.query(By.css('p'));
+        expect(displayedError.nativeElement.textContent).toEqual("Name is too short (minimum is 3 characters).")
+      })
+
+      
+
     })
+    
   })
+  describe('back to list link', () => {
+    let navLink: any;
+    beforeEach(() => {
+      navLink = fixture.debugElement.query(By.css('.cancel'));
+
+    })
+
+    it('should say "Back to List"', () => {
+    expect(navLink.nativeElement.textContent).toEqual("Back to List");
+    })
+
+    it('should navigate to unicorn list', () => {
+
+      let spy = jest.spyOn(TestBed.inject(Router), 'navigate').mockReturnValue(Promise.resolve(true))
+
+      navLink.nativeElement.click();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(['/']);
+      
+      
+    })
+
+  })
+
 });
- 

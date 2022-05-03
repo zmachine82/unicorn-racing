@@ -2,4 +2,10 @@
     <input type="text" placeholder="Name" class="name" name="name" ngModel>
     
     <button type="submit">Submit</button>
+    <button type="button" class="cancel" (click)="onCancel()">Back to List</button>
+    <ng-container *ngIf="nameErrors">
+        <div *ngFor="let error of nameErrors">
+            <p style="color: red;">Name {{error}}.</p>
+        </div>
+    </ng-container>
 </form>
