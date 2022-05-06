@@ -53,4 +53,20 @@ describe('HeaderComponent', () => {
       expect(links[0].attributes['routerLink']).toEqual('sign-up');
     });
   })
+  
+  describe('sign in link', () => {
+    it('should exist', () => {
+      expect(fixture.debugElement.query(By.css('.sign-in')).nativeElement.textContent.trim())
+          .toEqual('Sign In')
+    });
+
+    it('should route to the sign in component', () => {
+      let links = fixture.debugElement.queryAll(By.css('.sign-in'));
+  
+    
+      expect(links[0].attributes['routerLink']).toEqual('sign-in');
+    });
+  })
+
+
 });

@@ -18,6 +18,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule} from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatCardModule} from '@angular/material/card';
     UnicornDetailComponent,
     NewUnicornPageComponent,
     HeaderComponent,
-    SignUpComponent
+    SignUpComponent,
+    SignInComponent
   ],
   imports: [
     FormsModule,
