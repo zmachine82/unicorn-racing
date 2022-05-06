@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockProvider } from "ng-mocks";
@@ -16,7 +17,8 @@ describe('UnicornsPageComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ UnicornsPageComponent ],
       imports: [
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
+        MatCardModule
       ],
       providers: [
         MockProvider(UnicornService)

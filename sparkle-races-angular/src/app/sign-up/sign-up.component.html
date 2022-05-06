@@ -1,0 +1,18 @@
+<mat-card>
+    <h2>Sign up for the races!</h2>
+    <form #form="ngForm" (ngSubmit)="onSignUp(form)">
+        <mat-form-field appearance="fill" >
+            <mat-label>email</mat-label>
+            <input id="email" #email name="email" matInput required ngModel>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>password</mat-label>
+            <input id="password" #password type="password" name="password" matInput required ngModel>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>confirm password</mat-label>
+            <input id="passwordConfirmation"  type="password" name="passwordConfirmation" #passwordConfirmation required matInput ngModel>
+        </mat-form-field>
+        <button mat-flat-button color="primary" [disabled]="!form.valid || password.value !== passwordConfirmation.value" class="sign-up" id="submitButton">Sign Up</button>
+    </form>
+</mat-card>
