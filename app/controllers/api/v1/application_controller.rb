@@ -1,7 +1,7 @@
 class Api::V1::ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  # before_action :authenticate
+  before_action :authenticate
 
   def authenticate
     authenticate_token || render_unauthorized

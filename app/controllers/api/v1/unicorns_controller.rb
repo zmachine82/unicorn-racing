@@ -1,6 +1,6 @@
 class Api::V1::UnicornsController < Api::V1::ApplicationController
   before_action :set_api_v1_unicorn, only: [:show, :update, :destroy]
-
+  skip_before_action :authenticate, only: %i[index show]
   # GET /api/v1/unicorns
   def index
     @api_v1_unicorns = Api::V1::Unicorn.all

@@ -13,8 +13,8 @@ module BaseApi
       )
       user.save!
       return ServiceContract.error('Error saving user.') unless user.valid?
-
-      ServiceContract.success(user)
+      token = user.generate_token!('127.0.0.1')
+      ServiceContract.success({ user: user, token: token })
     end
 
     def self.destroy_user(user_id)

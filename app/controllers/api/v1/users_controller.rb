@@ -28,7 +28,8 @@ module Api
         result = BaseApi::Users.new_user(params)
         render_error(errors: 'There was a problem creating a new user', status: 400) and return unless result.success?
         payload = {
-          user: UserBlueprint.render_as_hash(result.payload, view: :normal)
+          user: UserBlueprint.render_as_hash(result.payload[:user], view: :normal),
+          token: TokenBlueprint.render_as_hash(result.payload[:token])
         }
         #  TODO: Invite user to accept invitation via registered email
         render_success(payload: payload)
