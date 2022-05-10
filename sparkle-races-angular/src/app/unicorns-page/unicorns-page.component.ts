@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 import { UnicornService } from '../unicorn.service';
 
 
@@ -11,12 +12,16 @@ export class UnicornsPageComponent implements OnInit {
 
   unicorns: any[] = [];
 
-  constructor(private unicornService: UnicornService) { }
+  constructor(private unicornService: UnicornService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.unicornService.getAllUnicorns().subscribe(data => {
       this.unicorns = data
     });
+  }
+
+  isAdmin() {
+    return this.auth.isAdmin()
   }
 
 }

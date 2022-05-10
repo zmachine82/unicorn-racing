@@ -19,6 +19,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule} from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { IsAdminDirective } from './is-admin.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
     NewUnicornPageComponent,
     HeaderComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    IsAdminDirective
   ],
   imports: [
     FormsModule,

@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, Subject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  
 
   
-  user: Subject<any>;
+  private user: Subject<any>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.user = new Subject<any>()
   
    }
@@ -37,5 +39,19 @@ export class AuthService {
 
   isLoggedIn() {
    return localStorage.getItem('token') ? true : false;
+  }
+
+  signOut() {
+    localStorage.removeItem('token');
+    this.user.next(null)
+    this.router.navigate(['/'])
+  }
+
+  isAdmin(): boolean {
+    return this.isLoggedIn();
+  }
+
+  isAdmin$() {
+    return this.user.asObservable()
   }
 }

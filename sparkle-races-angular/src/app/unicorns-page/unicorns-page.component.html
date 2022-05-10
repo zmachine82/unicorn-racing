@@ -1,12 +1,17 @@
 <mat-card>
-<h1> Unicorn Racers ({{unicorns.length}})</h1>
+    <h1> Unicorn Racers ({{unicorns.length}})</h1>
 
 
-
-
-<button class="new-unicorn-link" style="cursor: pointer;" routerLink="new" mat-raised-button>Add A Unicorn</button>
-<br />
-<p *ngFor="let unicorn of unicorns">
-    <a  [routerLink]="unicorn.id">{{ unicorn.name }} <br /></a>
-</p>
+    <button
+     class="new-unicorn-link" 
+     style="cursor: pointer;" 
+     routerLink="new" 
+     mat-raised-button 
+     *appIsAdmin>
+            Add A Unicorn
+    </button>
+    <br />
+    <p *ngFor="let unicorn of unicorns">
+        <a  [routerLink]="unicorn.id">{{ unicorn.name }} <br /></a>
+    </p>
 </mat-card>

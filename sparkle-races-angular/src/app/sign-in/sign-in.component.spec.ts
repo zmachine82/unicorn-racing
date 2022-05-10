@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -28,7 +30,8 @@ describe('SignInComponent', () => {
         MatButtonModule,
         MatInputModule,
         NoopAnimationsModule,
-        MatCardModule
+        MatCardModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();
@@ -68,6 +71,28 @@ describe('SignInComponent', () => {
       })
       
 
+    });
+
+    it('should redirect user back to home page after signin', () => {
+      jest.spyOn(TestBed.inject(AuthService), 'signIn').mockReturnValue(of({}))
+      const spy = jest.spyOn(TestBed.inject(Router), 'navigate').mockReturnValue(Promise.resolve(true))
+      
+      const usernameField = fixture.debugElement.query(By.css('#email'))
+      const passwordField = fixture.debugElement.query(By.css('#password'))
+
+      usernameField.nativeElement.value = 'owenwilson123@wow.com'
+      usernameField.nativeElement.dispatchEvent(new Event('input'))
+      passwordField.nativeElement.value = 'wowAPAssword!'
+      passwordField.nativeElement.dispatchEvent(new Event('input'))
+
+      fixture.detectChanges();
+
+      const submitButton = fixture.debugElement.query(By.css('#submitButton'))
+      submitButton.nativeElement.click();
+      
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith(['/'])
     });
 
 

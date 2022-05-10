@@ -1,6 +1,9 @@
+<mat-card>
 <h2 *ngIf="unicorn">{{unicorn.name}}</h2>
 <button (click)="destroyUnicorn()" 
     style="font-weight:bold; 
         color: #ff66cc; 
         background-color: black;
-        cursor: pointer;" >Annihilate Adorable Unicorn</button>
+        cursor: pointer;" *appIsAdmin>Annihilate Adorable Unicorn</button>
+
+</mat-card>

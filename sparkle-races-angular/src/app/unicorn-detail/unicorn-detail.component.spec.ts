@@ -1,9 +1,12 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockProvider } from 'ng-mocks';
+import { MockDirective, MockProvider, MockProviders } from 'ng-mocks';
 import { of } from 'rxjs';
+import { AuthService } from '../auth.service';
+import { IsAdminDirective } from '../is-admin.directive';
 import { UnicornService } from '../unicorn.service';
 
 import { UnicornDetailComponent } from './unicorn-detail.component';
@@ -15,12 +18,13 @@ describe('UnicornDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnicornDetailComponent ],
+      declarations: [ UnicornDetailComponent, IsAdminDirective ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule
       ],
       providers: [
-        MockProvider(UnicornService)
+        MockProviders(UnicornService, AuthService)
       ]
     })
     .compileComponents();
@@ -30,8 +34,11 @@ describe('UnicornDetailComponent', () => {
     fixture = TestBed.createComponent(UnicornDetailComponent);
     component = fixture.componentInstance;
     activatedRoute = TestBed.inject(ActivatedRoute);
+    
     activatedRoute.params = of({id: '2'})
     jest.spyOn(TestBed.inject(UnicornService), 'getById').mockReturnValue(of({id: 2, name: 'Steve'}))
+    jest.spyOn(TestBed.inject(AuthService), 'isAdmin').mockReturnValue(true);
+    jest.spyOn(TestBed.inject(AuthService), 'isAdmin$').mockReturnValue(of({}));
     fixture.detectChanges();
   });
 

@@ -2,9 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockProvider } from "ng-mocks";
+import { MockProvider, MockProviders } from "ng-mocks";
 import { of } from 'rxjs';
 import { routes } from '../app-routing.module';
+import { AuthService } from '../auth.service';
+import { IsAdminDirective } from '../is-admin.directive';
 import { UnicornService } from '../unicorn.service';
 import { UnicornsPageComponent } from './unicorns-page.component';
 
@@ -15,13 +17,13 @@ describe('UnicornsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnicornsPageComponent ],
+      declarations: [ UnicornsPageComponent, IsAdminDirective ],
       imports: [
         RouterTestingModule.withRoutes(routes),
         MatCardModule
       ],
       providers: [
-        MockProvider(UnicornService)
+        MockProviders(UnicornService, AuthService)
       ]
     })
     .compileComponents();
@@ -32,7 +34,8 @@ describe('UnicornsPageComponent', () => {
     component = fixture.componentInstance;
 
     jest.spyOn(TestBed.inject(UnicornService), 'getAllUnicorns').mockReturnValue(of([{name: 'steve'}]))
-
+    jest.spyOn(TestBed.inject(AuthService), 'isAdmin').mockReturnValue(false);
+    jest.spyOn(TestBed.inject(AuthService), 'isAdmin$').mockReturnValue(of({}));
   
   });
 
@@ -81,7 +84,17 @@ describe('UnicornsPageComponent', () => {
   });
 
   describe('new unicorn link', () => {
+
+    it('should not be visibile if user is not logged in and not admin', () => {
+      jest.spyOn(TestBed.inject(AuthService), 'isAdmin').mockReturnValue(false);
+      fixture.detectChanges()
+
+      expect(fixture.debugElement.query(By.css('.new-unicorn-link'))).toBeFalsy()
+    });
+
     it('should route to new unicorn page', () => {
+      jest.spyOn(TestBed.inject(AuthService), 'isAdmin').mockReturnValue(true);
+      fixture.detectChanges()
       let link = fixture.debugElement.query(By.css('.new-unicorn-link'));
     
       expect(link.nativeElement.textContent.trim()).toEqual('Add A Unicorn');

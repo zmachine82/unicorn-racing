@@ -3,6 +3,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import {BehaviorSubject} from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 describe('AuthService', () => {
   let service: AuthService;
   let httpController: HttpTestingController;
@@ -10,7 +12,8 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ]
     });
     service = TestBed.inject(AuthService);
@@ -292,5 +295,20 @@ describe('AuthService', () => {
       localStorage.clear();
       expect(service.isLoggedIn()).toEqual(false)
     });
+  })
+
+  describe('sign out', () => {
+    it('should delete token from local storage', () => {
+      localStorage.setItem('token', '1234');
+      service.signOut()
+      expect(localStorage.getItem('token')).toBeFalsy();
+    });
+
+    it('should redirect user to home', () => {
+      const spy = jest.spyOn(TestBed.inject(Router), 'navigate').mockReturnValue(Promise.resolve(true))
+      service.signOut()
+
+      expect(spy).toHaveBeenCalledWith(['/'])
+    })
   })
 });
