@@ -2,6 +2,16 @@
 
 Rails.application.routes.draw do
 
+  namespace :api do
+    namespace :v1 do
+      resources :race_results
+    end
+  end
+  namespace :api do
+    namespace :v1 do
+      resources :races
+    end
+  end
   require 'sidekiq/web'
 
   scope :monitoring do

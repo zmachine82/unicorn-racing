@@ -20,8 +20,7 @@ onSignIn(form: NgForm){
   this.authService.signIn(form.value).subscribe(() => {
 
     this.router.navigate(['/'])
-  }
-  )
+  })
 }
 
 }

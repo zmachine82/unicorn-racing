@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  
+ 
 
   
   private user: Subject<any>;
@@ -38,7 +38,7 @@ export class AuthService {
   // User Functions \\
 
   isLoggedIn() {
-   return localStorage.getItem('token') ? true : false;
+   return this.getToken() ? true : false;
   }
 
   signOut() {
@@ -54,4 +54,9 @@ export class AuthService {
   isAdmin$() {
     return this.user.asObservable()
   }
+
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+  
 }

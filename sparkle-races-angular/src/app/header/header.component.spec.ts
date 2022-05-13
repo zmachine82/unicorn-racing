@@ -117,6 +117,21 @@ describe('HeaderComponent', () => {
       expect(spy).toHaveBeenCalled();
       
     });
+
+    it('should have link to races', () => {
+      expect(fixture.debugElement.query(By.css('.races')).nativeElement.textContent.trim())
+      .toEqual('Races')
+    })
+
+    it('races link should route to the races component', () => {
+      let links = fixture.debugElement.queryAll(By.css('.races'));
+
+
+      expect(links[0].attributes['routerLink']).toEqual('races');
+    });
+
+    
   })
 
+  
 });

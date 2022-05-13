@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 
 import { SignUpComponent } from './sign-up.component';
 import { MockProvider } from 'ng-mocks';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -25,7 +26,8 @@ describe('SignUpComponent', () => {
         MatButtonModule,
         MatInputModule,
         NoopAnimationsModule,
-        MatCardModule
+        MatCardModule,
+        RouterTestingModule
       ],
       providers: [
         MockProvider(AuthService)

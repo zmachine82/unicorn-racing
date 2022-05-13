@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewUnicornPageComponent } from './new-unicorn-page/new-unicorn-page.component';
+import { RacesComponent } from './races/races.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UnicornDetailComponent } from './unicorn-detail/unicorn-detail.component';
@@ -32,6 +33,11 @@ export const routes: Routes = [
     component: SignInComponent,
     path: 'sign-in',
   },
+  {
+    component: RacesComponent,
+    path: 'races',
+  },
+
 ];
 
 @NgModule({

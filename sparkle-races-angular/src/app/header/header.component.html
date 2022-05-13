@@ -1,5 +1,6 @@
 <mat-toolbar >
     <span routerLink="/">Sparkle Races</span>
+    <button mat-stroked-button class="races" routerLink="races">Races</button>
     <div *ngIf="!isLoggedIn(); else signOutButton">
         <button mat-stroked-button class="sign-in" routerLink="sign-in">Sign In</button>
         <button mat-stroked-button class="sign-up" routerLink="sign-up">Sign Up</button>

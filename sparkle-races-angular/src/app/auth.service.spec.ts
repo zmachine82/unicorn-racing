@@ -311,4 +311,11 @@ describe('AuthService', () => {
       expect(spy).toHaveBeenCalledWith(['/'])
     })
   })
+
+  describe('getToken', () => {
+    it('should return token from storage', () => {
+      localStorage.setItem('token', 'wowAToken')
+      expect(service.getToken()).toEqual("wowAToken")
+    })
+  })
 });

@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_25_233522) do
+ActiveRecord::Schema.define(version: 2022_05_12_235240) do
+
+  create_table "api_v1_race_results", force: :cascade do |t|
+    t.integer "race_id", null: false
+    t.integer "unicorn_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["race_id"], name: "index_api_v1_race_results_on_race_id"
+    t.index ["unicorn_id"], name: "index_api_v1_race_results_on_unicorn_id"
+  end
+
+  create_table "api_v1_races", force: :cascade do |t|
+    t.string "name"
+    t.datetime "start_ts"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "api_v1_unicorns", force: :cascade do |t|
     t.string "name"
@@ -33,12 +49,6 @@ ActiveRecord::Schema.define(version: 2022_04_25_233522) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"
-  end
-
-  create_table "unicorns", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "user_roles", force: :cascade do |t|
@@ -64,6 +74,8 @@ ActiveRecord::Schema.define(version: 2022_04_25_233522) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "api_v1_race_results", "api_v1_races", column: "race_id"
+  add_foreign_key "api_v1_race_results", "api_v1_unicorns", column: "unicorn_id"
   add_foreign_key "tokens", "users"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
