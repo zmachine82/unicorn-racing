@@ -1,1 +1,7 @@
-<p>races works!</p>
+<mat-card>
+    <h1>Unicorn Races</h1>
+    <button mat-raised-button *appIsAdmin [routerLink]="'new'" class="new-race-link">Create a Race</button>
+    <div *ngFor="let race of races">
+        <a>{{race.name}}: {{race.timeStatus}}</a>
+    </div>
+</mat-card>

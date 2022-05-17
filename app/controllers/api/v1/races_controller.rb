@@ -1,11 +1,11 @@
 class Api::V1::RacesController < Api::V1::ApplicationController
-  before_action :set_api_v1_race, only: [:show, :update, :destroy]
+  before_action :set_api_v1_race, only: [:show, :update, :destroy, :finish]
 
   # GET /api/v1/races
   def index
     @api_v1_races = Api::V1::Race.all
 
-    render json: @api_v1_races
+    render json: @api_v1_races, include: ['race_result']
   end
 
   # GET /api/v1/races/1
@@ -36,6 +36,13 @@ class Api::V1::RacesController < Api::V1::ApplicationController
   # DELETE /api/v1/races/1
   def destroy
     @api_v1_race.destroy
+  end
+
+  def finish
+    if @api_v1_race.is_finished?
+      render json: "Race is already finished", status: :unprocessable_entity
+    end
+    render json: @api_v1_race.run_race_simulation
   end
 
   private

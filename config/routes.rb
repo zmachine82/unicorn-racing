@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :races
+      post 'races/finish', to: 'races#finish'
     end
   end
   require 'sidekiq/web'
