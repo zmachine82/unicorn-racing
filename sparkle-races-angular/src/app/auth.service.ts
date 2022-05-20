@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -10,11 +10,14 @@ export class AuthService {
  
 
   
-  private user: Subject<any>;
+  private user: BehaviorSubject<any>;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.user = new Subject<any>()
-  
+    this.user = new BehaviorSubject<any>(null)
+    const user = localStorage.getItem( 'user')
+    if(user) {
+      this.user.next(JSON.parse(user))
+    }
    }
 
   // Auth Functions \\
@@ -31,7 +34,12 @@ export class AuthService {
 
   onLogIn(response: any){
     this.user.next(response.payload.user)
+    localStorage.setItem( 'user', JSON.stringify (response.payload.user))
     localStorage.setItem( 'token', response.payload.token.value)
+  }
+
+  getUser$(): Observable<any> {
+    return this.user.asObservable();
   }
 
 

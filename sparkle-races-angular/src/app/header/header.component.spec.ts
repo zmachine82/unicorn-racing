@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
-import { MockProvider } from 'ng-mocks';
+import { MockProvider, MockProviders } from 'ng-mocks';
+import { of } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { BetService } from '../bet.service';
 
 import { HeaderComponent } from './header.component';
 
@@ -15,10 +18,11 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       imports: [
-        MatToolbarModule
+        MatToolbarModule,
+        MatIconModule
       ],
       providers: [
-        MockProvider(AuthService)
+        MockProviders(AuthService, BetService)
       ]
     })
       .compileComponents();
@@ -28,6 +32,7 @@ describe('HeaderComponent', () => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
+    jest.spyOn(authService, 'getUser$').mockReturnValue(of({balance: 0}));
 
   });
 
@@ -92,9 +97,11 @@ describe('HeaderComponent', () => {
   })
 
   describe('when user is logged in', () => {
+    let balance = getRandomInt(1, 10000)
   
     beforeEach(() => {
       jest.spyOn(authService, 'isLoggedIn').mockReturnValue(true);
+      jest.spyOn(authService, 'getUser$').mockReturnValue(of({balance: balance}));
 
       fixture.detectChanges();
     });
@@ -130,8 +137,18 @@ describe('HeaderComponent', () => {
       expect(links[0].attributes['routerLink']).toEqual('races');
     });
 
+    it('should display users balance', () => {
+      expect(fixture.debugElement.query(By.css('.balance')).nativeElement.textContent).toEqual(balance.toString())
+    });
+
     
   })
 
   
 });
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}

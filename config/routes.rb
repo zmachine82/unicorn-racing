@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'bets/new', to: 'bets#new_bet_data'
+      post 'bets/create', to: 'bets#create'
+    end
+  end
+  namespace :api do
+    namespace :v1 do
       resources :race_results
     end
   end

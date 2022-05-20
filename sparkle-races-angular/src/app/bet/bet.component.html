@@ -1,0 +1,39 @@
+<mat-card>
+<form #form="ngForm" (ngSubmit)="submitForm(form)" >
+    <h4>Choose Your Bet</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Races</mat-label>
+      <mat-select  name="race_id" ngModel #race>
+        <mat-option *ngFor="let race of betData.races" [value]="race.id">
+          {{race.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Unicorns</mat-label>
+        <mat-select  name="unicorn_id" ngModel #unicorn>
+          <mat-option *ngFor="let unicorn of betData.unicorns" [value]="unicorn.id">
+            {{unicorn.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" >
+        <mat-label>How Many UniKoins</mat-label>
+        <input matInput type="number" name="amount" ngModel #bet_amount>
+      </mat-form-field>
+      <button type="submit" id="bet_submit">Click Me or else</button>
+      
+    <!-- <p>Selected: {{}}</p>
+    <h4>Native select</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Favorite Car</mat-label>
+      <select matNativeControl [formControl]="carControl" name="car">
+        <option value="">None</option>
+        <option *ngFor="let car of cars" [value]="car.value">
+          {{car.viewValue}}
+        </option>
+      </select> -->
+    <!-- </mat-form-field> -->
+    <!-- <p>Selected: {{carControl.value}}</p> -->
+  </form>
+</mat-card>

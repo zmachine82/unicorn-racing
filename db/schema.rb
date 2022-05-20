@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_235240) do
+ActiveRecord::Schema.define(version: 2022_05_19_233139) do
+
+  create_table "api_v1_bets", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "race_id", null: false
+    t.integer "unicorn_id", null: false
+    t.integer "amount"
+    t.boolean "paid_out"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["race_id"], name: "index_api_v1_bets_on_race_id"
+    t.index ["unicorn_id"], name: "index_api_v1_bets_on_unicorn_id"
+    t.index ["user_id"], name: "index_api_v1_bets_on_user_id"
+  end
 
   create_table "api_v1_race_results", force: :cascade do |t|
     t.integer "race_id", null: false
@@ -71,9 +84,13 @@ ActiveRecord::Schema.define(version: 2022_05_12_235240) do
     t.datetime "invitation_expiration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "balance", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "api_v1_bets", "api_v1_races", column: "race_id"
+  add_foreign_key "api_v1_bets", "api_v1_unicorns", column: "unicorn_id"
+  add_foreign_key "api_v1_bets", "users"
   add_foreign_key "api_v1_race_results", "api_v1_races", column: "race_id"
   add_foreign_key "api_v1_race_results", "api_v1_unicorns", column: "unicorn_id"
   add_foreign_key "tokens", "users"

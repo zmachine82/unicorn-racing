@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BetComponent } from './bet/bet.component';
 import { NewUnicornPageComponent } from './new-unicorn-page/new-unicorn-page.component';
 import { RacesComponent } from './races/races.component';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -37,6 +38,10 @@ export const routes: Routes = [
     component: RacesComponent,
     path: 'races',
   },
+  {
+    component: BetComponent,
+    path: 'bets'
+  }
 
 ];
 

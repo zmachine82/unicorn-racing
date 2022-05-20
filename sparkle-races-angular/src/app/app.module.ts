@@ -18,10 +18,13 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule} from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { IsAdminDirective } from './is-admin.directive';
 import { AuthInterceptor } from './auth.interceptor';
 import { RacesComponent } from './races/races.component';
+import { BetComponent } from './bet/bet.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { RacesComponent } from './races/races.component';
     SignUpComponent,
     SignInComponent,
     IsAdminDirective,
-    RacesComponent
+    RacesComponent,
+    BetComponent
   ],
   imports: [
     FormsModule,
@@ -45,7 +49,9 @@ import { RacesComponent } from './races/races.component';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [
     {

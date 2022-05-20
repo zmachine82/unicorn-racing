@@ -20,3 +20,11 @@ div {
 .mat-stroked-button {
     background: rgb(89,162,51)
 }
+
+.balanceContainer {
+    margin-top: 1rem;
+    display: flex;
+    mat-icon {
+        cursor: pointer;
+    }
+}
