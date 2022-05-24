@@ -1,3 +1,5 @@
+
+
 class Api::V1::BetsController <  Api::V1::ApplicationController
 
     def new_bet_data
@@ -6,6 +8,6 @@ class Api::V1::BetsController <  Api::V1::ApplicationController
     end
 
     def create
-        Api::V1::Bet.create({race_id: params['race_id'], unicorn_id: params['unicorn_id'], user_id:  @current_user.id, amount: params['amount']})
+        render json: BetHandler.new.new_bet({race_id: params['race_id'], unicorn_id: params['unicorn_id'], user:  @current_user, amount: params['amount']})
     end
 end
